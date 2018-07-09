@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Odin - Etch-a-Sketch</title>
+		<link href="style.css" rel="stylesheet">
+		<!--<script type="text/javascript" src="scripts.js"></script>-->
+	</head>
+	<body>
+		<button>New Grid!</button>
+		<div id="container"></div>
+		
+		<script>
+			let gridColumns = 6;
+			let gridRows = 6;
+			let gridTotal = gridColumns*gridRows;
+			const container = document.getElementById('container');
+			let gHeight;
+			let gWidth;
+			
+			var btn = document.querySelector('button');
+			btn.addEventListener('click', updateGrid);
+			
+			calcGridDims()
+			loadGrid()
+			
+			function updateGrid(){
+				gridRows = parseInt(prompt('number of rows', '4'));
+				gridColumns = parseInt(prompt('number of columns','4'));
+				
+				if(!isFinite(gridRows)){
+					gridRows=4;
+				}
+				if(!isFinite(gridColumns)){
+					gridColumns=4;
+				}
+				
+				container.innerHTML="";
+				calcGridDims()
+				loadGrid()
+			}
+			
+			
+			
+			function loadGrid(){
+				for (var i=0;i<gridRows;i++){
+					createRow()
+				}
+			}
+			
+			function calcGridDims(){
+				gHeight = (100/gridRows).toFixed(2) + '%';
+				gWidth = (100/gridColumns).toFixed(2) + '%'
+			}
+			
+			function createRow(){				
+				var rowContainer = document.createElement('div');
+				rowContainer.classList.add('divRow');
+				rowContainer.setAttribute('style',`height:${gHeight}`);
+				container.appendChild(rowContainer);				
+				for (var i=0;i<gridColumns;i++){
+					createColumns(rowContainer);	
+				}
+			}
+			
+			function createColumns(divRow){
+				var rowGrid = document.createElement('div');
+				rowGrid.classList.add('divGrid');
+				rowGrid.setAttribute('style',`width:${gWidth}`);
+				rowGrid.addEventListener('mouseenter', changeColor);
+				divRow.appendChild(rowGrid);
+			}
+			
+/*			var divGrids = document.getElementsByClassName('divGrid');
+	
+			for(var i=0;i<divGrids.length;i++){
+				divGrids[i].addEventListener('onmouseover', changeColor(divGrids[i])); 
+			}*/
+
+			function changeColor(e){
+				e.target.classList.add('divHover');
+			}
+			
+			
+			/*				
+			for (var i=0;i<gridContainers.length;i++){
+				var grid = document.createElement('div');
+				grid.classList.add('divGridInner');
+				gridContainers[i].appendChild(grid);
+			}*/
+		</script>
+	</body>
+</html>
